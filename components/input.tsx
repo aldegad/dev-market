@@ -20,7 +20,7 @@ interface InputProps {
           {label}
         </label>
         {kind === "text" ? (
-          <div className="rounded-md relative flex  items-center shadow-sm">
+          <div className="rounded-md relative flex items-center shadow-sm">
             <input
               id={name}
               {...rest}
