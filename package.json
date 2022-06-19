@@ -10,7 +10,8 @@
     "studio": "npx prisma studio",
     "push": "npx prisma db push",
     "connect": "pscale connect dev-market",
-    "generate": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "formate": "npx prisma format"
   },
   "dependencies": {
     "@prisma/client": "^3.15.2",
@@ -18,7 +19,8 @@
     "next": "12.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.32.2"
+    "react-hook-form": "^7.32.2",
+    "twilio": "^3.77.3"
   },
   "devDependencies": {
     "@types/node": "18.0.0",
