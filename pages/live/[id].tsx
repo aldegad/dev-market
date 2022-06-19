@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { InputFloat } from "../../components/input-float";
-import Layout from "../../components/layout";
-import Message from "../../components/message";
+import { InputFloat } from "@components/input-float";
+import Layout from "@components/layout";
+import Message from "@components/message";
 
 const LiveDetail: NextPage = () => {
   return (

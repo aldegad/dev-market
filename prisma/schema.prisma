@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  // 객체가 다른 객체에 연결될 때, 그 객체가 있는지를 체크하는 기능
+  // planetscale(vitess)에는 foreign key 가 없으므로
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  // 위에서 referentialIntegrity 기능을 쓰면 이것도 적어줘야 한다.
+  referentialIntegrity = "prisma"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  phone Int? @unique
+  email String? @unique
+  avatar String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

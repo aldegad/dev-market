@@ -1,13 +1,34 @@
+import { NextPage } from "next";
 import { useState } from "react";
-import Button from "../components/button";
-import Input from "../components/input";
-import Layout from "../components/layout";
-import { cls } from "../libs/utils";
+import { useForm } from "react-hook-form";
+import useMutation from "@libs/client/useMutation";
+import { cls } from "@libs/client/utils";
+import Button from "@components/button";
+import Input from "@components/input";
+import Layout from "@components/layout";
 
-export default function Enter() {
+interface EnterForm {
+  email?: string;
+  phone?: string;
+}
+
+const Enter: NextPage = () => {
+  const [enter, {loading, data, error}] = useMutation("/api/users/enter");
+  const { register, handleSubmit, reset } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  }
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  }
+  const onValid = (validForm: EnterForm) => {
+    console.log("🚀 Login Form Valid!!", validForm);
+    enter(validForm);
+  }
+  console.log(loading, data, error);
   return (
     <Layout title="로그인" canGoBack>
       <div className="mt-16 p-4">
@@ -30,13 +51,20 @@ export default function Enter() {
               )} onClick={onPhoneClick}>Phone</button>
             </div>
           </div>
-          <form className="flex flex-col mt-8">
-            {method === "email" ? <Input label="Email address" name="email" type="email"></Input> : null}
-            {method === "phone" ? <Input label="Phone number" name="phone" kind="phone"></Input> : null}
-            <Button className="mt-5" text={
-              method === "email" ? "Get login link" : 
-              method === "phone" ? "Get one-time password" : ""
-            }></Button>
+          <form onSubmit={handleSubmit(onValid)} className="flex flex-col mt-8">
+            {method === "email" ? 
+              <Input register={register("email")} label="Email address" type="email"></Input> 
+            : null}
+            {method === "phone" ? 
+              <Input register={register("phone")} label="Phone number" kind="phone"></Input> 
+            : null}
+
+            {method === "email" ? 
+              <Button text={"Get login link"} /> 
+            : null}
+            {method === "phone" ? (
+              <Button text={loading ? "Loading" : "Get one-time password"} />
+            ) : null}
           </form>
           <div className="mt-8">
             <div className="relative">
@@ -77,3 +105,5 @@ export default function Enter() {
     </Layout>
   );
 }
+
+export default Enter;
