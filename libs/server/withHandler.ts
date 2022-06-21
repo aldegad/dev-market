@@ -13,7 +13,7 @@ export default function withHandler(method:"GET"|"POST"|"DELETE", fn:(req:NextAp
     }
 
     try {
-      console.log("🚗 Get Data", req.body);
+      console.log("🧑‍🚀 Got Data", req.body);
       await fn(req, res);
     }
     catch(error) {
