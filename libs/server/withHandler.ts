@@ -5,16 +5,30 @@ export interface ResponseType {
   [key: string]: any;
 }
 
-export default function withHandler(method:"GET"|"POST"|"DELETE", fn:(req:NextApiRequest, res:NextApiResponse) => void) {
+interface ConfigType {
+  method: "GET" | "POST" | "DELETE",
+  handler:(req:NextApiRequest, res:NextApiResponse) => void,
+  isPrivate?: boolean
+}
+
+export default function withHandler({
+  method,
+  handler,
+  isPrivate = true
+}:ConfigType) {
   return async function(req:NextApiRequest, res:NextApiResponse) {
     if(req.method !== method) {
       // 405 is bad request
       return res.status(405).end();
     }
+    if(isPrivate && !req.session.user) {
+      // 인증실패 401
+      return res.status(401).json({ ok: false, error: "Plz, login" })
+    }
 
     try {
-      console.log("🧑‍🚀 Got Data", req.body);
-      await fn(req, res);
+      console.log("⭐️ Got Data", req.body);
+      await handler(req, res);
     }
     catch(error) {
       console.log(error);

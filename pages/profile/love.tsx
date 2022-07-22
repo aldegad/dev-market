@@ -5,7 +5,7 @@ const Love: NextPage = () => {
     return (
       <div>
       {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-        <Link href="/items/123e">
+        <Link href="/products/123e">
         <div key={i} className="flex border-b py-4 px-4 cursor-pointer justify-between">
             <div className="flex space-x-4">
                 <div className="w-20 h-20 bg-gray-400 rounded"/>

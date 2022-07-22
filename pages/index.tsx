@@ -3,10 +3,17 @@ import ButtonFloat from "@components/button-float";
 import Item from "@components/item";
 import ItemGroup from "@components/item-group";
 import Layout from "@components/layout";
+import useUser from "@libs/client/useUser";
+import Head from "next/head";
 
 const Home: NextPage = () => {
+  const { user, isLoading } = useUser();
+  console.log(user);
   return (
     <Layout title="홈" hasTabBar>
+      <Head>
+        <title>Home</title>
+      </Head>
       <ItemGroup>
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Item
@@ -19,7 +26,7 @@ const Home: NextPage = () => {
           />
         ))}
       </ItemGroup>
-      <ButtonFloat href="/items/upload">
+      <ButtonFloat href="/products/upload">
         <svg
           className="h-6 w-6"
           xmlns="http://www.w3.org/2000/svg"

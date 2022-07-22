@@ -1,11 +1,12 @@
 import { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import Button from "@components/button";
 import Input from "@components/input";
 import Layout from "@components/layout";
+import { useRouter } from "next/router";
 
 interface EnterForm {
   email?: string;
@@ -41,10 +42,18 @@ const Enter: NextPage = () => {
   const onTokenValid = (validForm: TokenForm) => {
     confirmToken(validForm);
   }
+
+  const router = useRouter();
+  useEffect(() => {
+    if(tokenData?.ok) {
+      router.push("/");
+    }
+  }, [tokenData]);
+
   return (
-    <Layout title="로그인" canGoBack>
+    <Layout title="로그인">
       <div className="mt-16 p-4">
-        <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
+        <h3 className="text-3xl font-bold text-center">Enter to Dev.Market</h3>
         <div className="mt-8">
           {
             data?.ok ? (

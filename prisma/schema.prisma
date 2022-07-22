@@ -2,35 +2,51 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   // 객체가 다른 객체에 연결될 때, 그 객체가 있는지를 체크하는 기능
   // planetscale(vitess)에는 foreign key 가 없으므로
-  previewFeatures = ["referentialIntegrity"]
+  // previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   // 위에서 referentialIntegrity 기능을 쓰면 이것도 적어줘야 한다.
-  referentialIntegrity = "prisma"
+  // referentialIntegrity = "prisma"
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  phone     BigInt?     @unique
-  email     String?  @unique
+  phone     String?   @unique
+  email     String?   @unique
   avatar    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   tokens    Token[]
+  Product   Product[]
 }
 
 model Token {
   id        Int      @id @default(autoincrement())
-  payload   String
+  payload   String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  image String
+  name String
+  price Int
+  description String @db.MediumText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+//저 @db.MediumText 나 Cascade 같은 애들이 자동완성이 안되는데, 혹시 prisma 말고 다른 extension을 설치해야 하나요?
